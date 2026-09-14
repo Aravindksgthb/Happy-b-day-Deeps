@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Sweet Birthday Book For Deepa 🍫</title>
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fdf5e6;
+      --card-bg: #fffdfa;
+      --accent-pink: #ff6b81;
+      --text-main: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #ffeaa7, #fab1a0, #fd79a8);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .book-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 3 / 4;
+      perspective: 1200px;
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.05);
+      border: 8px solid white;
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.4s ease;
+      transform-origin: left center;
+      user-select: none;
+    }
+
+    .page.turned {
+      transform: rotateY(-110deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .tape {
+      width: 90px;
+      height: 24px;
+      background: rgba(255, 235, 167, 0.7);
+      margin: -38px auto 10px;
+      border-left: 3px dashed rgba(0,0,0,0.1);
+      border-right: 3px dashed rgba(0,0,0,0.1);
+      transform: rotate(-3deg);
+    }
+
+    .page h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 2.2rem;
+      color: #2d3436;
+      line-height: 1.2;
+    }
+
+    .sweet-illustration {
+      width: 150px;
+      height: 150px;
+      margin: 15px auto;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+      animation: float 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-8px) rotate(2deg); }
+    }
+
+    .message {
+      font-family: 'Caveat', cursive;
+      font-size: 1.55rem;
+      color: #d63031;
+      font-weight: 700;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.3;
+    }
+
+    .page-indicator {
+      font-size: 0.85rem;
+      color: #aaa;
+      letter-spacing: 1px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      background: white;
+      color: #ff6b81;
+      border: 2px solid #ff6b81;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #ff6b81;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(255, 107, 129, 0.3);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, #fff5f5, #ffeaa7);
+    }
+    .cover h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 2.9rem;
+      color: #d63031;
+    }
+
+    .final-page {
+      background: linear-gradient(135deg, #e3f2fd, #fff);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="book-wrapper">
+
+    <!-- Cover Page -->
+    <div class="page cover" id="page-0" style="z-index: 10;">
+      <div class="tape"></div>
+      <h1>A Book of Sweets</h1>
+      <p style="font-size: 1.1rem; color: #636e72;">Chocolates & reasons why you make life fun! 🍫</p>
+      <div style="font-size: 4.5rem;">📖✨</div>
+      <p style="font-family: 'Caveat', cursive; font-size: 1.8rem; color: #ff7675;">To my partner-in-crime Deepa 👯‍♀️</p>
+      <span class="page-indicator">Tap Next to open</span>
+    </div>
+
+    <!-- Page 1: Gems -->
+    <div class="page" id="page-1" style="z-index: 9;">
+      <div class="tape"></div>
+      <h2>Cadbury Gems</h2>
+      <div class="sweet-illustration">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <rect x="20" y="15" width="60" height="70" rx="8" fill="#0984e3" />
+          <circle cx="35" cy="40" r="7" fill="#ff7675"/>
+          <circle cx="60" cy="35" r="8" fill="#ffeaa7"/>
+          <circle cx="42" cy="60" r="9" fill="#55efc4"/>
+          <circle cx="65" cy="65" r="7" fill="#fd79a8"/>
+          <text x="50" y="80" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">GEMS</text>
+        </svg>
+      </div>
+      <div class="message">"Deepa, life would be genuinely boring without your chaotic, colorful energy! ✨"</div>
+      <span class="page-indicator">1 / 5</span>
+    </div>
+
+    <!-- Page 2: KitKat -->
+    <div class="page" id="page-2" style="z-index: 8;">
+      <div class="tape"></div>
+      <h2>KitKat</h2>
+      <div class="sweet-illustration">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <rect x="25" y="20" width="50" height="60" rx="4" fill="#d63031" />
+          <rect x="33" y="25" width="14" height="50" rx="2" fill="#fff" opacity="0.3"/>
+          <rect x="53" y="25" width="14" height="50" rx="2" fill="#fff" opacity="0.3"/>
+          <text x="50" y="55" text-anchor="middle" fill="#fff" font-weight="bold" font-size="11">KitKat</text>
+        </svg>
+      </div>
+      <div class="message">"Deepa, my favorite person to pause and gossip with when we should be working." ☕</div>
+      <span class="page-indicator">2 / 5</span>
+    </div>
+
+    <!-- Page 3: Snickers -->
+    <div class="page" id="page-3" style="z-index: 7;">
+      <div class="tape"></div>
+      <h2>Snickers</h2>
+      <div class="sweet-illustration">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <rect x="15" y="32" width="70" height="36" rx="6" fill="#6c5ce7" />
+          <rect x="18" y="36" width="64" height="28" rx="4" fill="#fff" />
+          <text x="50" y="55" text-anchor="middle" fill="#0984e3" font-weight="900" font-size="10">SNICKERS</text>
+        </svg>
+      </div>
+      <div class="message">"Eat a Snickers, Deepa... because you turn into an absolute drama queen when hungry!" 🥜</div>
+      <span class="page-indicator">3 / 5</span>
+    </div>
+
+    <!-- Page 4: 5 Star -->
+    <div class="page" id="page-4" style="z-index: 6;">
+      <div class="tape"></div>
+      <h2>5 Star</h2>
+      <div class="sweet-illustration">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <rect x="20" y="32" width="60" height="36" rx="5" fill="#f1c40f" />
+          <text x="50" y="54" text-anchor="middle" fill="#d63031" font-weight="bold" font-size="11">5 STAR</text>
+        </svg>
+      </div>
+      <div class="message">"Deepa, do what you do best today: eat a 5 Star and do absolutely nothing productive." ⭐</div>
+      <span class="page-indicator">4 / 5</span>
+    </div>
+
+    <!-- Page 5: Bounty -->
+    <div class="page" id="page-5" style="z-index: 5;">
+      <div class="tape"></div>
+      <h2>Bounty</h2>
+      <div class="sweet-illustration">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <rect x="15" y="32" width="70" height="36" rx="6" fill="#0072bb" />
+          <path d="M 15 46 Q 50 40 85 46 L 85 54 Q 50 60 15 54 Z" fill="#ffffff" />
+          <circle cx="28" cy="50" r="4" fill="#27ae60" />
+          <text x="54" y="54" text-anchor="middle" fill="#0072bb" font-weight="900" font-size="10" letter-spacing="1">BOUNTY</text>
+        </svg>
+      </div>
+      <div class="message">"To my favorite coconut head: tough on the outside, totally soft and sweet on the inside! 🥥"</div>
+      <span class="page-indicator">5 / 5</span>
+    </div>
+
+    <!-- Final Page: Birthday Wish -->
+    <div class="page final-page" id="page-6" style="z-index: 4;">
+      <div class="tape"></div>
+      <h1 style="font-family: 'Caveat'; font-size: 2.6rem; color: #0984e3;">HAPPY BIRTHDAY DEEPA! 🎂</h1>
+      <div style="font-size: 4rem;">🥳🎉</div>
+      <div class="message" style="color: #2d3436; font-size: 1.7rem;">
+        "Cheers to another year of terrible jokes, amazing snacks, and surviving life together!"
+      </div>
+      <button class="btn" onclick="fireConfetti()" style="background:#0984e3; color:#fff; border:none;">Celebrate Deepa! 🎊</button>
+      <span class="page-indicator">Have the best day! 🎈</span>
+    </div>
+
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="controls">
+    <button class="btn" id="prevBtn" onclick="prevPage()" disabled>← Back</button>
+    <button class="btn" id="nextBtn" onclick="nextPage()">Next →</button>
+  </div>
+
+  <script>
+    let currentPage = 0;
+    const totalPages = document.querySelectorAll('.page').length;
+
+    function updateControls() {
+      document.getElementById('prevBtn').disabled = (currentPage === 0);
+      document.getElementById('nextBtn').disabled = (currentPage === totalPages - 1);
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages - 1) {
+        document.getElementById(`page-${currentPage}`).classList.add('turned');
+        currentPage++;
+        updateControls();
+        if (currentPage === totalPages - 1) {
+          fireConfetti();
+        }
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        document.getElementById(`page-${currentPage}`).classList.remove('turned');
+        updateControls();
+      }
+    }
+
+    function fireConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+  </script>
+</body>
+</html>

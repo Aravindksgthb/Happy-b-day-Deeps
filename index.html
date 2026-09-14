@@ -54,7 +54,7 @@
       width: 100%;
       max-width: 380px;
       height: 520px;
-      perspective: 1200px;
+      perspective: 1400px;
       margin-bottom: 12px;
       z-index: 10;
       user-select: none;
@@ -76,12 +76,13 @@
       transform-origin: left center;
       user-select: none;
       overflow: hidden;
-      transition: transform 0.45s ease, opacity 0.35s ease;
-      will-change: transform;
+      /* Weighted, natural page peel transition */
+      transition: transform 0.75s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.55s ease 0.15s;
+      will-change: transform, opacity;
     }
 
     .page.turned {
-      transform: rotateY(-110deg) !important;
+      transform: rotateY(-115deg) !important;
       opacity: 0 !important;
       pointer-events: none !important;
     }
@@ -185,7 +186,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Reliable bottom bar */
     .controls {
       display: flex;
       align-items: center;
@@ -273,7 +273,7 @@
         <img src="Kitkat.png" alt="KitKat" class="sweet-photo">
         <span class="tap-hint">Snap it! 🥢</span>
       </div>
-      <div class="message">"Have a break, Deepa! Seriously, pause the overthinking and go take a nap." ☕</div>
+      <div class="message">"Have a break, Deepa! And no, you still can’t have the bigger half of the KitKat." ☕</div>
       <span class="page-indicator">2 / 5</span>
     </div>
 
@@ -389,7 +389,7 @@
     }, { passive: true });
 
     wrapper.addEventListener('touchend', (e) => {
-      if (!isMoving) return; // Disregard tap micro-movements so chocolates can animate
+      if (!isMoving) return;
       const endX = e.changedTouches[0].clientX;
       const diff = startX - endX;
 
@@ -469,4 +469,3 @@
   </script>
 </body>
 </html>
-

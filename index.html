@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,9 +36,10 @@
     .book-wrapper {
       position: relative;
       width: 100%;
-      max-width: 420px;
-      aspect-ratio: 3 / 4.3;
+      max-width: 380px;
+      height: 520px;
       perspective: 1200px;
+      margin-bottom: 20px;
     }
 
     .page {
@@ -47,30 +47,33 @@
       inset: 0;
       background: var(--card-bg);
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
       border: 8px solid white;
-      padding: 24px 20px;
+      padding: 24px 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       text-align: center;
-      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.4s ease;
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.4s ease, visibility 0.6s;
       transform-origin: left center;
       user-select: none;
+      overflow: hidden;
     }
 
+    /* Inactive pages are hidden completely so they cannot bleed through or block clicks */
     .page.turned {
       transform: rotateY(-110deg);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
     }
 
     .tape {
       width: 80px;
-      height: 22px;
+      height: 20px;
       background: rgba(230, 220, 200, 0.6);
-      margin: -32px auto 6px;
+      margin: -32px auto 4px;
       border-left: 3px dashed rgba(0,0,0,0.08);
       border-right: 3px dashed rgba(0,0,0,0.08);
       transform: rotate(-2deg);
@@ -84,9 +87,9 @@
     }
 
     .sweet-photo-container {
-      width: 160px;
-      height: 160px;
-      margin: 10px auto;
+      width: 150px;
+      height: 150px;
+      margin: 8px auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -96,7 +99,7 @@
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.15));
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12));
       animation: gentle-float 3.5s ease-in-out infinite alternate;
     }
 
@@ -107,10 +110,10 @@
 
     .message {
       font-family: 'Caveat', cursive;
-      font-size: 1.55rem;
+      font-size: 1.45rem;
       color: #34495e;
       font-weight: 700;
-      min-height: 65px;
+      min-height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -124,24 +127,27 @@
       letter-spacing: 0.5px;
     }
 
+    /* Fixed z-index & positioning so buttons are never blocked */
     .controls {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-top: 20px;
+      position: relative;
+      z-index: 100;
     }
 
     .btn {
       background: white;
       color: #4a69bd;
       border: 1.5px solid #4a69bd;
-      padding: 8px 22px;
+      padding: 10px 26px;
       border-radius: 50px;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       transition: all 0.2s ease;
+      touch-action: manipulation;
     }
 
     .btn:hover {
@@ -154,6 +160,9 @@
       opacity: 0.35;
       cursor: not-allowed;
       transform: none;
+      background: #f1f2f6;
+      border-color: #ced6e0;
+      color: #a4b0be;
     }
 
     .cover {
@@ -162,9 +171,8 @@
 
     .final-page {
       background: linear-gradient(145deg, #f7f9fc, #fff);
-      justify-content: flex-start;
-      gap: 12px;
-      padding: 24px 18px;
+      justify-content: space-between;
+      padding: 20px 18px;
     }
   </style>
 </head>
@@ -175,8 +183,8 @@
     <!-- Cover Page -->
     <div class="page cover" id="page-0" style="z-index: 10;">
       <div class="tape"></div>
-      <h1 style="font-family: 'Caveat'; font-size: 2.7rem; color: #2c3e50; margin-top: 8px;">For Deepa</h1>
-      <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.5; padding: 0 10px;">
+      <h1 style="font-family: 'Caveat'; font-size: 2.8rem; color: #2c3e50; margin-top: 4px;">For Deepa</h1>
+      <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.5; padding: 0 8px;">
         A quiet collection of sweets, just to bring a little smile to your face.
       </p>
       <div style="font-size: 4rem; margin: 10px 0;">🌼📖</div>
@@ -242,18 +250,18 @@
     <!-- Final Page: Thoughtful Birthday Message -->
     <div class="page final-page" id="page-6" style="z-index: 4;">
       <div class="tape"></div>
-      <h2 style="font-size: 2.1rem; color: #2c3e50; margin-top: 8px;">Happy Birthday, Deepa 🤍</h2>
+      <h2 style="font-size: 2rem; color: #2c3e50; margin-top: 4px;">Happy Birthday, Deepa 🤍</h2>
       
-      <p style="font-size: 0.95rem; color: #4b6584; line-height: 1.6; text-align: center; margin: 8px 0;">
-        I know this isn't a year for loud parties or big celebrations with everything going on with aunty. But you still deserve to be remembered, honored, and appreciated today.
+      <p style="font-size: 0.9rem; color: #4b6584; line-height: 1.5; text-align: center; margin: 4px 0;">
+        I know this isn't a year for loud celebrations with everything going on with aunty. But you still deserve to be remembered, honored, and appreciated today.
       </p>
 
-      <div class="message" style="color: #2c3e50; font-size: 1.45rem; min-height: unset; line-height: 1.35;">
+      <div class="message" style="color: #2c3e50; font-size: 1.35rem; min-height: unset; line-height: 1.35;">
         "You have been so strong through all of this. Just remember you don't have to carry the weight alone — I’m always here whenever you need a friend."
       </div>
 
-      <button class="btn" onclick="fireSoftConfetti()" style="margin-top: 10px; background: #6c5ce7; color: white; border: none;">A Little Warmth For You 🌸</button>
-      <span class="page-indicator" style="margin-top: auto;">Wishing you peace and brighter days ahead.</span>
+      <button class="btn" onclick="fireSoftConfetti()" style="margin: 6px 0; background: #6c5ce7; color: white; border: none; padding: 8px 20px;">A Little Warmth For You 🌸</button>
+      <span class="page-indicator">Wishing you peace and brighter days ahead.</span>
     </div>
 
   </div>
@@ -266,18 +274,33 @@
 
   <script>
     let currentPage = 0;
-    const totalPages = document.querySelectorAll('.page').length;
+    const pages = document.querySelectorAll('.page');
+    const totalPages = pages.length;
 
-    function updateControls() {
+    function updateView() {
+      pages.forEach((page, index) => {
+        if (index < currentPage) {
+          page.classList.add('turned');
+          page.style.visibility = 'hidden';
+        } else if (index === currentPage) {
+          page.classList.remove('turned');
+          page.style.visibility = 'visible';
+          page.style.zIndex = '20';
+        } else {
+          page.classList.remove('turned');
+          page.style.visibility = 'hidden';
+          page.style.zIndex = '1';
+        }
+      });
+
       document.getElementById('prevBtn').disabled = (currentPage === 0);
       document.getElementById('nextBtn').disabled = (currentPage === totalPages - 1);
     }
 
     function nextPage() {
       if (currentPage < totalPages - 1) {
-        document.getElementById(`page-${currentPage}`).classList.add('turned');
         currentPage++;
-        updateControls();
+        updateView();
         if (currentPage === totalPages - 1) {
           fireSoftConfetti();
         }
@@ -287,8 +310,7 @@
     function prevPage() {
       if (currentPage > 0) {
         currentPage--;
-        document.getElementById(`page-${currentPage}`).classList.remove('turned');
-        updateControls();
+        updateView();
       }
     }
 
@@ -300,6 +322,9 @@
         origin: { y: 0.6 }
       });
     }
+
+    // Initialize layout
+    updateView();
   </script>
 </body>
 </html>

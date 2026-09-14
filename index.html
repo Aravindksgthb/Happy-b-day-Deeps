@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>For Deepa 🍫</title>
-  <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -19,6 +17,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -29,8 +28,25 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      overflow-x: hidden;
+      padding: 12px;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0.35;
+      animation: drift 14s linear infinite;
+      z-index: 0;
+      font-size: 1.2rem;
+    }
+
+    @keyframes drift {
+      0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.4; }
+      85% { opacity: 0.4; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
 
     .book-wrapper {
@@ -39,41 +55,42 @@
       max-width: 380px;
       height: 520px;
       perspective: 1200px;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
+      z-index: 10;
+      user-select: none;
     }
 
     .page {
       position: absolute;
       inset: 0;
       background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+      border-radius: 18px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
       border: 8px solid white;
-      padding: 24px 18px;
+      padding: 22px 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       text-align: center;
-      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.4s ease, visibility 0.6s;
       transform-origin: left center;
       user-select: none;
       overflow: hidden;
+      transition: transform 0.45s ease, opacity 0.35s ease;
+      will-change: transform;
     }
 
-    /* Inactive pages are hidden completely so they cannot bleed through or block clicks */
     .page.turned {
-      transform: rotateY(-110deg);
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+      transform: rotateY(-110deg) !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
     .tape {
       width: 80px;
       height: 20px;
-      background: rgba(230, 220, 200, 0.6);
-      margin: -32px auto 4px;
+      background: rgba(230, 220, 200, 0.7);
+      margin: -30px auto 4px;
       border-left: 3px dashed rgba(0,0,0,0.08);
       border-right: 3px dashed rgba(0,0,0,0.08);
       transform: rotate(-2deg);
@@ -87,25 +104,66 @@
     }
 
     .sweet-photo-container {
-      width: 150px;
-      height: 150px;
-      margin: 8px auto;
+      width: 160px;
+      height: 160px;
+      margin: 4px auto;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      position: relative;
+      touch-action: manipulation;
     }
 
     .sweet-photo {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12));
-      animation: gentle-float 3.5s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.14));
+      transition: transform 0.25s ease;
+      pointer-events: none;
     }
 
-    @keyframes gentle-float {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-6px); }
+    .tap-hint {
+      position: absolute;
+      bottom: -6px;
+      font-size: 0.72rem;
+      color: #a4b0be;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    /* Animations */
+    .snap-anim { animation: snapBreak 0.6s ease forwards; }
+    @keyframes snapBreak {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.1) rotate(-8deg); }
+      60% { transform: scale(0.92) rotate(4deg) translateY(6px); }
+      100% { transform: scale(1); }
+    }
+
+    .stretch-anim { animation: stretchWobble 0.7s ease forwards; }
+    @keyframes stretchWobble {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.25, 0.8); }
+      55% { transform: scale(0.88, 1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .melt-anim { animation: meltSlump 0.8s ease forwards; }
+    @keyframes meltSlump {
+      0% { transform: scale(1) translateY(0); }
+      40% { transform: scale(1.2, 0.7) translateY(14px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+
+    .crack-anim { animation: coconutSpin 0.7s ease forwards; }
+    @keyframes coconutSpin {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.15) rotate(-12deg); }
+      100% { transform: scale(1); }
     }
 
     .message {
@@ -127,77 +185,81 @@
       letter-spacing: 0.5px;
     }
 
-    /* Fixed z-index & positioning so buttons are never blocked */
+    /* Reliable bottom bar */
     .controls {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 16px;
-      position: relative;
-      z-index: 100;
+      z-index: 50;
+      margin-top: 4px;
     }
 
-    .btn {
+    .nav-btn {
       background: white;
       color: #4a69bd;
       border: 1.5px solid #4a69bd;
-      padding: 10px 26px;
+      padding: 8px 20px;
       border-radius: 50px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: all 0.2s ease;
-      touch-action: manipulation;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     }
 
-    .btn:hover {
-      background: #4a69bd;
-      color: white;
-      transform: translateY(-2px);
-    }
-
-    .btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      transform: none;
-      background: #f1f2f6;
+    .nav-btn:disabled {
+      opacity: 0.3;
       border-color: #ced6e0;
       color: #a4b0be;
     }
 
-    .cover {
-      background: linear-gradient(145deg, #fffaf6, #f3f0ff);
-    }
-
+    .cover { background: linear-gradient(145deg, #fffaf6, #f3f0ff); }
     .final-page {
       background: linear-gradient(145deg, #f7f9fc, #fff);
       justify-content: space-between;
-      padding: 20px 18px;
+      padding: 18px;
+    }
+
+    .secret-box {
+      background: #f8f9fe;
+      border: 1.5px dashed #b2bec3;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.88rem;
+      color: #57606f;
+      cursor: pointer;
+      width: 100%;
     }
   </style>
 </head>
 <body>
 
-  <div class="book-wrapper">
+  <div class="particle" style="left: 10%; animation-delay: 0s;">🌸</div>
+  <div class="particle" style="left: 30%; animation-delay: 4s;">✨</div>
+  <div class="particle" style="left: 70%; animation-delay: 2s;">🌼</div>
+  <div class="particle" style="left: 85%; animation-delay: 6s;">🤍</div>
+
+  <div class="book-wrapper" id="bookWrapper">
 
     <!-- Cover Page -->
     <div class="page cover" id="page-0" style="z-index: 10;">
       <div class="tape"></div>
-      <h1 style="font-family: 'Caveat'; font-size: 2.8rem; color: #2c3e50; margin-top: 4px;">For Deepa</h1>
+      <h1 style="font-family: 'Caveat'; font-size: 2.7rem; color: #2c3e50; margin-top: 4px;">For Deepa</h1>
       <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.5; padding: 0 8px;">
         A quiet collection of sweets, just to bring a little smile to your face.
       </p>
-      <div style="font-size: 4rem; margin: 10px 0;">🌼📖</div>
-      <p style="font-family: 'Caveat', cursive; font-size: 1.6rem; color: #6c5ce7;">For a friend who deserves only good things.</p>
-      <span class="page-indicator">Tap Next to flip through</span>
+      <div style="font-size: 3.8rem; margin: 6px 0;">🌼📖</div>
+      <p style="font-family: 'Caveat', cursive; font-size: 1.55rem; color: #6c5ce7;">For a friend who deserves only good things.</p>
+      <span class="page-indicator">Swipe or tap Next ⟶</span>
     </div>
 
     <!-- Page 1: Gems -->
     <div class="page" id="page-1" style="z-index: 9;">
       <div class="tape"></div>
       <h2>Cadbury Gems</h2>
-      <div class="sweet-photo-container">
+      <div class="sweet-photo-container" onclick="popGems(this)">
         <img src="Gems.png" alt="Gems" class="sweet-photo">
+        <span class="tap-hint">Tap me! ✨</span>
       </div>
       <div class="message">"For the person who always brings warmth and color, even when things get heavy." ✨</div>
       <span class="page-indicator">1 / 5</span>
@@ -207,10 +269,11 @@
     <div class="page" id="page-2" style="z-index: 8;">
       <div class="tape"></div>
       <h2>KitKat</h2>
-      <div class="sweet-photo-container">
+      <div class="sweet-photo-container" onclick="snapKitkat(this)">
         <img src="Kitkat.png" alt="KitKat" class="sweet-photo">
+        <span class="tap-hint">Snap it! 🥢</span>
       </div>
-      <div class="message">"Deepa, a reminder to pause and catch your breath. You carry so much so gracefully." ☕</div>
+      <div class="message">"Have a break, Deepa! Seriously, pause the overthinking and go take a nap." ☕</div>
       <span class="page-indicator">2 / 5</span>
     </div>
 
@@ -218,10 +281,11 @@
     <div class="page" id="page-3" style="z-index: 7;">
       <div class="tape"></div>
       <h2>Snickers</h2>
-      <div class="sweet-photo-container">
+      <div class="sweet-photo-container" onclick="stretchSnickers(this)">
         <img src="Snickers.png" alt="Snickers" class="sweet-photo">
+        <span class="tap-hint">Poke me! 🥜</span>
       </div>
-      <div class="message">"For strength, patience, and some instant calm whenever everything feels like a lot." 🥜</div>
+      <div class="message">"Deepa, eat a Snickers. You know you get 10x more dramatic when you're hungry!" 🥜</div>
       <span class="page-indicator">3 / 5</span>
     </div>
 
@@ -229,10 +293,11 @@
     <div class="page" id="page-4" style="z-index: 6;">
       <div class="tape"></div>
       <h2>5 Star</h2>
-      <div class="sweet-photo-container">
+      <div class="sweet-photo-container" onclick="melt5Star(this)">
         <img src="5star.png" alt="5 Star" class="sweet-photo">
+        <span class="tap-hint">Melt it! ⭐</span>
       </div>
-      <div class="message">"Deepa, eat a 5 Star and just rest today. You truly deserve some quiet peace." ⭐</div>
+      <div class="message">"Eat 5 Star and do NOTHING. Official permission to be completely useless today." ⭐</div>
       <span class="page-indicator">4 / 5</span>
     </div>
 
@@ -240,36 +305,35 @@
     <div class="page" id="page-5" style="z-index: 5;">
       <div class="tape"></div>
       <h2>Bounty</h2>
-      <div class="sweet-photo-container">
+      <div class="sweet-photo-container" onclick="crackBounty(this)">
         <img src="Bounty.png" alt="Bounty" class="sweet-photo">
+        <span class="tap-hint">Crack me! 🥥</span>
       </div>
       <div class="message">"To my favorite coconut head: tough on the outside, totally soft and sweet on the inside! 🥥"</div>
       <span class="page-indicator">5 / 5</span>
     </div>
 
-    <!-- Final Page: Thoughtful Birthday Message -->
+    <!-- Final Page -->
     <div class="page final-page" id="page-6" style="z-index: 4;">
       <div class="tape"></div>
-      <h2 style="font-size: 2rem; color: #2c3e50; margin-top: 4px;">Happy Birthday, Deepa 🤍</h2>
-      
-      <p style="font-size: 0.9rem; color: #4b6584; line-height: 1.5; text-align: center; margin: 4px 0;">
+      <h2 style="font-size: 1.95rem; color: #2c3e50;">Happy Birthday, Deepa 🤍</h2>
+      <p style="font-size: 0.88rem; color: #4b6584; line-height: 1.5; text-align: center;">
         I know this isn't a year for loud celebrations with everything going on with aunty. But you still deserve to be remembered, honored, and appreciated today.
       </p>
 
-      <div class="message" style="color: #2c3e50; font-size: 1.35rem; min-height: unset; line-height: 1.35;">
-        "You have been so strong through all of this. Just remember you don't have to carry the weight alone — I’m always here whenever you need a friend."
+      <div class="secret-box" onclick="toggleSecret(this)">
+        <span>✉️ Tap to open a quiet note</span>
       </div>
 
-      <button class="btn" onclick="fireSoftConfetti()" style="margin: 6px 0; background: #6c5ce7; color: white; border: none; padding: 8px 20px;">A Little Warmth For You 🌸</button>
+      <button onclick="fireSoftConfetti()" style="background: #6c5ce7; color: white; border: none; padding: 9px 20px; border-radius: 50px; font-weight: 600; cursor: pointer;">A Little Warmth For You 🌸</button>
       <span class="page-indicator">Wishing you peace and brighter days ahead.</span>
     </div>
 
   </div>
 
-  <!-- Controls -->
   <div class="controls">
-    <button class="btn" id="prevBtn" onclick="prevPage()" disabled>← Back</button>
-    <button class="btn" id="nextBtn" onclick="nextPage()">Next →</button>
+    <button class="nav-btn" id="prevBtn" onclick="prevPage()" disabled>← Back</button>
+    <button class="nav-btn" id="nextBtn" onclick="nextPage()">Next →</button>
   </div>
 
   <script>
@@ -277,22 +341,19 @@
     const pages = document.querySelectorAll('.page');
     const totalPages = pages.length;
 
-    function updateView() {
-      pages.forEach((page, index) => {
-        if (index < currentPage) {
-          page.classList.add('turned');
-          page.style.visibility = 'hidden';
-        } else if (index === currentPage) {
-          page.classList.remove('turned');
-          page.style.visibility = 'visible';
-          page.style.zIndex = '20';
+    function updateStack() {
+      pages.forEach((p, idx) => {
+        if (idx < currentPage) {
+          p.classList.add('turned');
+          p.style.zIndex = idx;
+        } else if (idx === currentPage) {
+          p.classList.remove('turned');
+          p.style.zIndex = 20;
         } else {
-          page.classList.remove('turned');
-          page.style.visibility = 'hidden';
-          page.style.zIndex = '1';
+          p.classList.remove('turned');
+          p.style.zIndex = totalPages - idx;
         }
       });
-
       document.getElementById('prevBtn').disabled = (currentPage === 0);
       document.getElementById('nextBtn').disabled = (currentPage === totalPages - 1);
     }
@@ -300,18 +361,99 @@
     function nextPage() {
       if (currentPage < totalPages - 1) {
         currentPage++;
-        updateView();
-        if (currentPage === totalPages - 1) {
-          fireSoftConfetti();
-        }
+        updateStack();
+        if (currentPage === totalPages - 1) fireSoftConfetti();
       }
     }
 
     function prevPage() {
       if (currentPage > 0) {
         currentPage--;
-        updateView();
+        updateStack();
       }
+    }
+
+    // Touch Handling that preserves Chocolate taps
+    let startX = 0;
+    let isMoving = false;
+    const wrapper = document.getElementById('bookWrapper');
+
+    wrapper.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isMoving = false;
+    }, { passive: true });
+
+    wrapper.addEventListener('touchmove', (e) => {
+      const diff = Math.abs(e.touches[0].clientX - startX);
+      if (diff > 12) isMoving = true;
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', (e) => {
+      if (!isMoving) return; // Disregard tap micro-movements so chocolates can animate
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (diff > 45) nextPage();
+      else if (diff < -45) prevPage();
+    }, { passive: true });
+
+    // Sweet Actions
+    function popGems(el) {
+      const rect = el.getBoundingClientRect();
+      confetti({
+        particleCount: 25,
+        spread: 60,
+        colors: ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db', '#9b59b6'],
+        origin: { x: (rect.left + rect.width / 2) / window.innerWidth, y: (rect.top + rect.height / 2) / window.innerHeight }
+      });
+      const img = el.querySelector('img');
+      img.style.transform = 'scale(1.25) rotate(12deg)';
+      setTimeout(() => img.style.transform = 'scale(1)', 250);
+    }
+
+    function snapKitkat(el) {
+      const img = el.querySelector('img');
+      img.classList.remove('snap-anim');
+      void img.offsetWidth;
+      img.classList.add('snap-anim');
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function stretchSnickers(el) {
+      const img = el.querySelector('img');
+      img.classList.remove('stretch-anim');
+      void img.offsetWidth;
+      img.classList.add('stretch-anim');
+    }
+
+    function melt5Star(el) {
+      const img = el.querySelector('img');
+      img.classList.remove('melt-anim');
+      void img.offsetWidth;
+      img.classList.add('melt-anim');
+    }
+
+    function crackBounty(el) {
+      const img = el.querySelector('img');
+      img.classList.remove('crack-anim');
+      void img.offsetWidth;
+      img.classList.add('crack-anim');
+      confetti({
+        particleCount: 15,
+        spread: 50,
+        shapes: ['circle'],
+        colors: ['#ffffff', '#27ae60'],
+        scalar: 1.1
+      });
+    }
+
+    function toggleSecret(el) {
+      el.innerHTML = `<span style="color:#2c3e50; font-family:'Caveat'; font-size: 1.35rem; font-weight: bold; line-height: 1.25;">
+        "You don't have to carry the weight alone. Whenever you need quiet space, a silly distraction, or just a friend — I'm right here."
+      </span>`;
+      el.style.borderStyle = "solid";
+      el.style.borderColor = "#6c5ce7";
+      el.style.background = "#f7f5ff";
     }
 
     function fireSoftConfetti() {
@@ -323,8 +465,8 @@
       });
     }
 
-    // Initialize layout
-    updateView();
+    updateStack();
   </script>
 </body>
 </html>
+
